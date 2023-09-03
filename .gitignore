@@ -1,0 +1,49 @@
+# Visual Studio Code
+.vscode/
+
+# Visual Studio for Windows (if applicable)
+*.suo
+*.user
+*.sln.docstates
+
+# Rider
+.idea/
+
+# Compiled files
+/bin/
+/obj/
+
+# NuGet packages
+*.nuget.props
+*.nuget.targets
+packages/
+*.nupkg
+debug/
+release/
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Logs and databases
+*.log
+*.sqlite
+
+# Visual Studio files
+.vscode/
+*.suo
+*.user
+*.userprefs
+*.sln.docstates
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# macOS
+.DS_Store
+
+# Linux
+__MACOSX/
