@@ -1,0 +1,53 @@
+﻿@page "/EditPerson/{Id}"
+@using CRUD.Data
+@using CRUD.Models
+@using CRUD.Services
+@inject PersonService personService
+@inject NavigationManager NavigationManager
+
+<h3>Edit Person</h3>
+
+<hr />
+<form>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="for-group">
+				<label for="Name" class="control-label">Name</label>
+				<input form="Name" class="form-control" @bind="obj.Name" />
+			</div>
+			<div class="for-group">
+				<label for="Email" class="control-label">Email</label>
+				<input form="Email" class="form-control" @bind="obj.Email" />
+			</div>
+		</div>
+	</div>
+	<div class="col-mid-4">
+		<div class="form-group">
+			<input type="button" class="btn btn-primary" @onclick="@UpdatePerson" value="Update person" />
+			<input type="button" class="btn btn-danger" @onclick="@Cancel" value="Cancel" />
+		</div>
+	</div>
+</form>
+
+@code {
+
+	[Parameter]
+	public string Id{ get; set; }
+	Person obj = new Person();
+
+	protected override async Task OnInitializedAsync()
+	{
+		obj = await Task.Run(() => personService.GetPersonById(Convert.ToInt32(Id)));
+	}
+
+	protected async void UpdatePerson()
+	{
+		await personService.UpdatePersonDetails(obj);
+		NavigationManager.NavigateTo("PersonList");
+	}
+
+	void Cancel()
+	{
+		NavigationManager.NavigateTo("PersonList");
+	}
+}

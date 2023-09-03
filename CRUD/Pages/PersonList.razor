@@ -1,0 +1,59 @@
+﻿@page "/personlist"
+@using CRUD.Models
+@using CRUD.Services
+@inject PersonService personService 
+
+<NavLink class="nav-link" href="AddNewPerson">
+	<span class="oi oi-plus" aria-hidden="true">Add new person</span>
+</NavLink>
+
+<h3>CRUD</h3>
+
+@if(PerObj is null)
+{
+	<p><em>Loading.......</em></p>
+}
+
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Person ID</th>
+				<th>Person Name</th>
+				<th>Person Email</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var per in PerObj)
+			{
+				<tr>
+					<td>@per.Id</td>
+					<td>@per.Name</td>
+					<td>@per.Email</td>
+					<td>
+						<a class="nav-link btn btn-primary" href="EditPerson/@per.Id">
+							<span class="oi oi-pencil" aria-hidden="true">Edit</span>
+							</a>
+					</td>
+					<td>
+						<a class="nav-link btn btn-danger" href="DeletePerson/@per.Id">
+							<span class="oi oi-trash"  aria-hidden="true">Delete</span>
+						</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	List<Person> PerObj;
+
+	protected override async Task OnInitializedAsync()
+	{
+		PerObj = await Task.Run(() => personService.GetAllPerson());
+	}
+}

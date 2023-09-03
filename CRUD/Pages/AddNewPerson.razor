@@ -1,0 +1,42 @@
+﻿@page "/AddNewPerson"
+@using CRUD.Data
+@using CRUD.Models
+@using CRUD.Services
+@inject PersonService personService
+@inject NavigationManager NavigationManager
+
+<EditForm Model="@obj">
+    <DataAnnotationsValidator />
+    <h3>AddNewPerson</h3>
+    <hr />
+    <div class="form-group">
+        <label for="Name" class="control-label">Name</label>
+        <InputText id="Name" @bind-Value="obj.Name" class="form-control" />
+        <ValidationMessage For="@(() => obj.Name)" />
+    </div>
+    <div class="form-group">
+        <label for="Email" class="control-label">Email</label>
+        <InputText id="Email" @bind-Value="obj.Email" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" @onclick="@CreateNewPerson" value="Save person" />
+            <input type="button" class="btn btn-danger" @onclick="@Cancel" value="Cancel" />
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    Person obj = new Person();
+
+    protected async Task CreateNewPerson()
+    {
+        await personService.AddNewPerson(obj);
+        NavigationManager.NavigateTo("PersonList");
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("PersonList");
+    }
+}

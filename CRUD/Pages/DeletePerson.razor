@@ -1,0 +1,57 @@
+﻿@page "/DeletePerson/{Id}"
+@using CRUD.Data
+@using CRUD.Models
+@using CRUD.Services
+@inject PersonService personService
+@inject NavigationManager NavigationManager
+
+<h3>Delete Person</h3>
+
+<hr />
+<form>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="for-group">
+				<label for="Id" class="control-label">ID</label>
+				<label>@obj.Id</label>
+			</div>
+			<div class="for-group">
+				<label for="Name" class="control-label">Name</label>
+				<label>@obj.Name</label>
+			</div>
+			<div class="for-group">
+				<label for="Email" class="control-label">Email</label>
+				<label>@obj.Email</label>
+			</div>
+		</div>
+	</div>
+	<div class="col-mid-4">
+		<div class="form-group">
+			<input type="button" class="btn btn-primary" @onclick="@DeletePersonRecord" value="Delete person" />
+			<input type="button" class="btn btn-danger" @onclick="@Cancel" value="Cancel" />
+		</div>
+	</div>
+</form>
+
+@code {
+
+	[Parameter]
+	public string Id { get; set; }
+	Person obj = new Person();
+
+	protected override async Task OnInitializedAsync()
+	{
+		obj = await Task.Run(() => personService.GetPersonById(Convert.ToInt32(Id)));
+	}
+
+	protected async void DeletePersonRecord()
+	{
+		await personService.DeletePerson(obj);
+		NavigationManager.NavigateTo("PersonList");
+	}
+
+	void Cancel()
+	{
+		NavigationManager.NavigateTo("PersonList");
+	}
+}
